@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sensiv Website - Produk Gaming Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6d28d9;
+            --secondary: #ec4899;
+            --accent: #14b8a6;
+            --neon: #22d3ee;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #1f2937;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container, .project-container {
+            max-width: 640px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            margin: 16px;
+            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+        .project-container {
+            max-width: 900px;
+            display: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 6px solid var(--secondary);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+            animation: neonPulse 2.5s infinite ease-in-out;
+        }
+        .profile-img:hover {
+            transform: scale(1.1) rotate(4deg);
+            box-shadow: 0 12px 24px rgba(236, 72, 153, 0.4), 0 0 15px var(--neon);
+        }
+        @keyframes neonPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(236, 72, 153, 0.3), 0 0 15px var(--neon); }
+            50% { box-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 20px var(--neon); }
+        }
+        .buy-btn, .confirmation-btn, .donation-btn, .project-btn, .back-btn, .drawer-menu-btn {
+            background: linear-gradient(90deg, var(--accent), #0f766e);
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 3px 10px rgba(20, 184, 166, 0.3);
+        }
+        .buy-btn:hover, .confirmation-btn:hover, .donation-btn:hover, .project-btn:hover, .back-btn:hover, .drawer-menu-btn:hover {
+            background: linear-gradient(90deg, #0f766e, var(--accent));
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(20, 184, 166, 0.5), 0 0 10px var(--neon);
+        }
+        .buy-btn::after, .confirmation-btn::after, .donation-btn::after, .project-btn::after, .back-btn::after, .drawer-menu-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        .buy-btn:hover::after, .confirmation-btn:hover::after, .donation-btn:hover::after, .project-btn:hover::after, .back-btn:hover::after, .drawer-menu-btn:hover::after {
+            width: 200px;
+            height: 200px;
+        }
+        .product, .project {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 16px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s;
+            transform-style: preserve-3d;
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+        }
+        .product:hover, .project:hover {
+            transform: translateY(-8px) rotateX(4deg) rotateY(4deg);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 10px var(--neon);
+        }
+        .project-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-img:hover {
+            transform: scale(1.06);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            animation: modalFade 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes modalFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            margin: 10% auto;
+            padding: 24px;
+            width: 90%;
+            max-width: 420px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-60px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .close {
+            color: #6b7280;
+            float: right;
+            font-size: 28px;
+            font-weight: 700;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .close:hover, .close:focus {
+            color: var(--secondary);
+            transform: rotate(90deg);
+            cursor: pointer;
+        }
+        .payment-btn {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 3px 10px rgba(109, 40, 217, 0.3);
+        }
+        .payment-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(109, 40, 217, 0.5), 0 0 10px var(--neon);
+        }
+        .copy-btn {
+            background: linear-gradient(90deg, #4b5563, #6b7280);
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .copy-btn:hover {
+            background: linear-gradient(90deg, #6b7280, #4b5563);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 8px var(--neon);
+        }
+        .qris-img {
+            max-width: 240px;
+            margin: 20px auto;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .range-input {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, var(--secondary) 0%, var(--primary) 100%);
+            border-radius: 5px;
+            outline: none;
+            transition: background 0.3s;
+        }
+        .range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 0 8px var(--neon);
+        }
+        .range-input::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 0 8px var(--neon);
+        }
+        .range-input::-webkit-slider-thumb:hover {
+            background: var(--secondary);
+            transform: scale(1.2);
+        }
+        .range-input::-moz-range-thumb:hover {
+            background: var(--secondary);
+            transform: scale(1.2);
+        }
+        .range-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Drawer Styles */
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(236, 72, 153, 0.1));
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: -10px 0 20px rgba(0, 0, 0, 0.2);
+            padding: 32px 24px;
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 2000;
+        }
+        .drawer.open {
+            right: 0;
+        }
+        .drawer-close {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            color: #1f2937;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+        .drawer-close:hover {
+            transform: rotate(90deg);
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 0 10px var(--neon);
+        }
+        .drawer-btn {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 3px 10px rgba(109, 40, 217, 0.3);
+            border-radius: 10px;
+            padding: 8px;
+            transition: box-shadow 0.3s;
+        }
+        .drawer-btn:hover {
+            box-shadow: 0 6px 12px rgba(109, 40, 217, 0.5), 0 0 10px var(--neon);
+        }
+        .drawer-btn svg.hamburger {
+            display: block;
+        }
+        .drawer-btn.open svg.hamburger {
+            display: none;
+        }
+        .drawer-btn svg.close {
+            display: none;
+        }
+        .drawer-btn.open svg.close {
+            display: block;
+        }
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            z-index: 1500;
+        }
+        .drawer-overlay.open {
+            display: block;
+        }
+        h1, h2, h3 {
+            transition: color 0.3s ease;
+        }
+        h1:hover, h2:hover, h3:hover {
+            color: var(--secondary);
+            text-shadow: 0 0 8px var(--neon);
+        }
+        @media (max-width: 640px) {
+            .container, .project-container {
+                padding: 24px;
+                margin: 12px;
+            }
+            .profile-img {
+                width: 140px;
+                height: 140px;
+            }
+            .modal-content {
+                margin: 15% auto;
+                padding: 20px;
+            }
+            .drawer {
+                width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div id="mainContainer" class="container text-center">
+        <!-- Drawer Toggle Button -->
+        <button class="drawer-btn fixed top-6 right-6 z-50" onclick="toggleDrawer()">
+            <svg class="hamburger" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+            <svg class="close" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <path d="M6 6l12 12M6 18L18 6" />
+            </svg>
+        </button>
+        
+        <!-- Profile Section -->
+        <img src="https://raw.githubusercontent.com/ChelzzPemula/sensiv-website/main/e0e7a0d8073586b134acb881a99fdc8d-removebg-preview.png" 
+     alt="Logo Sensiv" 
+     class="profile-img mx-auto mb-8">
+        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-3">Sensiv Website</h1>
+        <p class="bio text-sm text-gray-600 mb-8 max-w-md mx-auto leading-relaxed">Produk aplikasi gaming premium dari Brand Sensiv, dirancang untuk meningkatkan pengalaman bermain dengan fitur inovatif.</p>
+        
+        <!-- Products Section -->
+        <div class="products mb-10">
+            <h2 class="text-2xl font-bold mb-6 text-gray-900">Produk Sensiv</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="product p-4 transform transition-all">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Sensiv Headtrick Terbaru</h3>
+                    <p class="text-sm text-gray-600 mb-3 leading-relaxed">Aplikasi terbaik Sensiv dengan fitur maksimal untuk pengalaman gaming unggul.</p>
+                    <span class="price block text-lg font-bold text-pink-500 mb-3">Rp 75.000</span>
+                    <button class="buy-btn w-full" onclick="openPaymentModal('Sensiv Headtrick - Version', 75000)">Beli Sekarang</button>
+                </div>
+                <div class="product p-4 transform transition-all">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Sensiv Project</h3>
+                    <p class="text-sm text-gray-600 mb-3 leading-relaxed">Aplikasi dengan kualitas menengah untuk pengalaman bermain yang berbeda.</p>
+                    <span class="price block text-lg font-bold text-pink-500 mb-3">Rp 50.000</span>
+                    <button class="buy-btn w-full" onclick="openPaymentModal('Sensiv Project - Version', 50000)">Beli Sekarang</button>
+                </div>
+                <div class="product p-4 transform transition-all">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Sensiv Medium</h3>
+                    <p class="text-sm text-gray-600 mb-3 leading-relaxed">Aplikasi termurah dengan fitur medium untuk meningkatkan performa gaming.</p>
+                    <span class="price block text-lg font-bold text-pink-500 mb-3">Rp 25.000</span>
+                    <button class="buy-btn w-full" onclick="openPaymentModal('Sensiv Medium - Version', 25000)">Beli Sekarang</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Donation Section -->
+        <div class="donation mb-10">
+            <h2 class="text-2xl font-bold mb-6 text-gray-900">Dukung Brand Sensiv</h2>
+            <button class="donation-btn w-full" onclick="openDonationModal()">Donasi Sekarang</button>
+        </div>
+        
+        <!-- Chat Button -->
+        <a href="https://wa.me/6281332669006?text=Halo%20Admin,%20saya%20ingin%20tanya%20tentang%20produk" class="bg-green-600 text-white py-3 px-6 rounded-xl font-bold text-base hover:bg-green-700 transition-all shadow-md">Chat via WhatsApp</a>
+    </div>
+
+    <!-- Project Container -->
+    <div id="projectContainer" class="project-container text-center">
+        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-8">Proyek Sensiv</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div class="project p-4">
+                <img src="https://raw.githubusercontent.com/ChelzzPemula/sensiv-website/main/Blue%20Colorful%20Phone%20Frame%20New%20Arrival%20Fashion%20Instagram%20Template_20250813_212704_0000.png" 
+     alt="Project 2" 
+     class="project-img">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Sensiv Headtrick</h3>
+                <p class="text-sm text-gray-600">Aplikasi terbaik Sensiv dengan fitur maksimal untuk pengalaman gaming unggul.</p>
+            </div>
+            <div class="project p-4">
+                <img src="https://raw.githubusercontent.com/ChelzzPemula/sensiv-website/refs/heads/main/Blue%20Colorful%20Phone%20Frame%20New%20Arrival%20Fashion%20Instagram%20Template_20250813_215503_0000.png" 
+     alt="Project 2" 
+     class="project-img">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Sensiv Project</h3>
+                <p class="text-sm text-gray-600">Aplikasi dengan kualitas menengah untuk pengalaman bermain yang berbeda.</p>
+            </div>
+            <div class="project p-4">
+                <img src="https://via.placeholder.com/280x220?text=Project+3" alt="Project 3" class="project-img">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Sensiv Medium</h3>
+                <p class="text-sm text-gray-600">Aplikasi termurah dengan fitur medium untuk meningkatkan performa gaming.</p>
+            </div>
+        </div>
+        <button class="back-btn mt-8" onclick="showMain()">Kembali ke Beranda</button>
+    </div>
+
+    <!-- Drawer -->
+    <div id="drawer" class="drawer">
+        <div class="flex justify-end">
+            <span class="drawer-close" onclick="toggleDrawer()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 6l12 12M6 18L18 6" />
+                </svg>
+            </span>
+        </div>
+        <h2 class="text-2xl font-extrabold mb-6 text-gray-900">Menu Sensiv</h2>
+        <div class="mb-8 space-y-4">
+            <button class="drawer-menu-btn w-full block text-center" onclick="showProjects()">Lihat Proyek</button>
+            <a href="#about" class="drawer-menu-btn w-full block text-center">Tentang Kami</a>
+            <a href="#faq" class="drawer-menu-btn w-full block text-center">FAQ</a>
+            <a href="https://wa.me/6281332669006?text=Halo%20Admin,%20saya%20ingin%20tanya%20tentang%20produk" class="drawer-menu-btn w-full block text-center">Live Chat via WhatsApp</a>
+            <a href="#contact" class="drawer-menu-btn w-full block text-center">Kontak</a>
+        </div>
+    </div>
+    <div id="drawerOverlay" class="drawer-overlay" onclick="toggleDrawer()"></div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePaymentModal()">&times;</span>
+            <h2 class="text-2xl font-bold mb-4 text-gray-900" id="paymentModalTitle">Pembelian Produk</h2>
+            <p class="mb-4 text-gray-600 text-sm">Pilih metode pembayaran untuk <span id="paymentProductName" class="font-semibold"></span></p>
+            <p id="accountNumber" class="text-sm text-gray-500 mb-2 font-semibold"></p>
+            <p id="copyInstruction" class="text-sm text-gray-500 mb-4"></p>
+            <button id="copyButton" class="copy-btn mb-4" style="display: none;" onclick="copyAccountNumber()">Salin Nomor</button>
+            <form id="paymentForm">
+                <input type="tel" id="phone" class="w-full p-3 border border-gray-200 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Nomor Telepon (contoh: 6281234567890)" pattern="\+?62[0-9]{9,12}" required>
+                <select id="paymentMethod" class="w-full p-3 border border-gray-200 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-pink-500" onchange="updateAccountNumber()">
+                    <option value="dana">DANA</option>
+                    <option value="gopay">GoPay</option>
+                    <option value="ovo">OVO</option>
+                    <option value="qris">QRIS</option>
+                </select>
+                <button type="submit" class="payment-btn w-full">Lanjutkan ke Pembayaran</button>
+            </form>
+            <p class="text-sm text-gray-500 mt-4">Setelah pembayaran, Anda akan melihat instruksi untuk mengirim bukti transfer.</p>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDonationModal()">&times;</span>
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">Dukung Sensiv</h2>
+            <p class="text-sm text-gray-600 mb-4">Pilih jumlah donasi untuk mendukung inovasi aplikasi gaming Sensiv.</p>
+            <div class="relative mb-4">
+                <div class="progress-bar mb-2">
+                    <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+                </div>
+                <input type="range" id="donationSlider" class="range-input" min="5000" max="1000000" step="5000" value="5000">
+                <div class="range-value mt-3" id="donationValue">Rp 5.000</div>
+            </div>
+            <input type="tel" id="donationPhone" class="w-full p-3 border border-gray-200 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Nomor Telepon (contoh: 6281234567890)" pattern="\+?62[0-9]{9,12}" required>
+            <select id="donationPaymentMethod" class="w-full p-3 border border-gray-200 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-pink-500" onchange="updateDonationAccountNumber()">
+                <option value="dana">DANA</option>
+                <option value="gopay">GoPay</option>
+                <option value="ovo">OVO</option>
+                <option value="qris">QRIS</option>
+            </select>
+            <p id="donationAccountNumber" class="text-sm text-gray-500 mb-2 font-semibold"></p>
+            <p id="donationCopyInstruction" class="text-sm text-gray-500 mb-4"></p>
+            <button id="donationCopyButton" class="copy-btn mb-4" style="display: none;" onclick="copyDonationAccountNumber()">Salin Nomor</button>
+            <button class="donation-btn w-full" onclick="submitDonation()">Donasi Sekarang</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfirmationModal()">&times;</span>
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">Konfirmasi Pembayaran</h2>
+            <p class="text-sm text-gray-600 mb-5">Jika transaksi berhasil, kirim invoice dan sertakan bukti transfer ke WhatsApp admin.</p>
+            <div class="bg-white p-5 rounded-xl mb-5 border border-gray-100 shadow-md">
+                <p class="text-sm mb-2"><strong>Invoice:</strong> <span id="confirmationInvoiceCode"></span></p>
+                <p class="text-sm mb-2"><strong>Produk:</strong> <span id="confirmationProductName"></span></p>
+                <p class="text-sm mb-2"><strong>Jumlah:</strong> Rp <span id="confirmationAmount"></span></p>
+                <p class="text-sm mb-2"><strong>Nomor Telepon:</strong> <span id="confirmationPhone"></span></p>
+                <p class="text-sm mb-2"><strong>Metode Pembayaran:</strong> <span id="confirmationPaymentMethod"></span></p>
+                <div id="qrisImage" style="display: none;">
+                    <img src="https://raw.githubusercontent.com/ChelzzPemula/sensiv-website/refs/heads/main/1722516945223.jpg" alt="QRIS" class="qris-img">
+                </div>
+            </div>
+            <a id="whatsappLink" class="confirmation-btn w-full">Kirim Bukti via WhatsApp</a>
+            <p class="text-sm text-gray-500 mt-4">Hubungi admin jika ada masalah dengan transaksi Anda.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentProduct = '';
+        let currentAmount = 0;
+
+        function generateInvoiceCode() {
+            return 'INV-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        }
+
+        function updateAccountNumber() {
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const accountNumber = document.getElementById('accountNumber');
+            const copyInstruction = document.getElementById('copyInstruction');
+            const copyButton = document.getElementById('copyButton');
+            if (paymentMethod === 'dana') {
+                accountNumber.textContent = 'Nomor DANA: 082328506749';
+                copyInstruction.textContent = 'Salin nomor untuk transfer';
+                copyButton.style.display = 'block';
+            } else if (paymentMethod === 'gopay') {
+                accountNumber.textContent = 'Nomor GoPay: 082328506749';
+                copyInstruction.textContent = 'Salin nomor untuk transfer';
+                copyButton.style.display = 'block';
+            } else if (paymentMethod === 'ovo') {
+                accountNumber.textContent = 'Nomor OVO: 082134127148';
+                copyInstruction.textContent = 'Salin nomor untuk transfer';
+                copyButton.style.display = 'block';
+            } else {
+                accountNumber.textContent = 'Scan QRIS di langkah berikutnya';
+                copyInstruction.textContent = '';
+                copyButton.style.display = 'none';
+            }
+        }
+
+        function updateDonationAccountNumber() {
+            const paymentMethod = document.getElementById('donationPaymentMethod').value;
+            const accountNumber = document.getElementById('donationAccountNumber');
+            const copyInstruction = document.getElementById('donationCopyInstruction');
+            const copyButton = document.getElementById('donationCopyButton');
+            if (paymentMethod === 'dana') {
+                accountNumber.textContent = 'Nomor DANA: 082328506749';
+                copyInstruction.textContent = 'Salin nomor untuk transfer';
+                copyButton.style.display = 'block';
+            } else if (paymentMethod === 'gopay') {
+                accountNumber.textContent = 'Nomor GoPay: 082328506749';
+                copyInstruction.textContent = 'Salin nomor untuk transfer';
+                copyButton.style.display = 'block';
+            } else if (paymentMethod === 'ovo') {
+                accountNumber.textContent = 'Nomor OVO: 082134127148';
+                copyInstruction.textContent = 'Salin nomor untuk transfer';
+                copyButton.style.display = 'block';
+            } else {
+                accountNumber.textContent = 'Scan QRIS di langkah berikutnya';
+                copyInstruction.textContent = '';
+                copyButton.style.display = 'none';
+            }
+        }
+
+        function copyAccountNumber() {
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            let number;
+            if (paymentMethod === 'dana') number = '082328506749';
+            else if (paymentMethod === 'gopay') number = '082328506749';
+            else if (paymentMethod === 'ovo') number = '082134127148';
+            else return;
+
+            // Coba Clipboard API dulu
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(number).then(() => {
+                    alert('Nomor berhasil disalin!');
+                }).catch(() => {
+                    // Fallback ke document.execCommand
+                    try {
+                        const textarea = document.createElement('textarea');
+                        textarea.value = number;
+                        textarea.style.position = 'fixed';
+                        textarea.style.opacity = '0';
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        alert('Nomor berhasil disalin!');
+                    } catch (err) {
+                        // Fallback akhir: Tampilkan nomor untuk disalin manual
+                        alert(`Gagal menyalin nomor. Silakan salin manual: ${number}`);
+                    }
+                });
+            } else {
+                // Fallback untuk browser tanpa Clipboard API
+                try {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = number;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = '0';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('Nomor berhasil disalin!');
+                } catch (err) {
+                    alert(`Gagal menyalin nomor. Silakan salin manual: ${number}`);
+                }
+            }
+        }
+
+        function copyDonationAccountNumber() {
+            const paymentMethod = document.getElementById('donationPaymentMethod').value;
+            let number;
+            if (paymentMethod === 'dana') number = '082328506749';
+            else if (paymentMethod === 'gopay') number = '082328506749';
+            else if (paymentMethod === 'ovo') number = '082134127148';
+            else return;
+
+            // Coba Clipboard API dulu
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(number).then(() => {
+                    alert('Nomor berhasil disalin!');
+                }).catch(() => {
+                    // Fallback ke document.execCommand
+                    try {
+                        const textarea = document.createElement('textarea');
+                        textarea.value = number;
+                        textarea.style.position = 'fixed';
+                        textarea.style.opacity = '0';
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        alert('Nomor berhasil disalin!');
+                    } catch (err) {
+                        // Fallback akhir: Tampilkan nomor untuk disalin manual
+                        alert(`Gagal menyalin nomor. Silakan salin manual: ${number}`);
+                    }
+                });
+            } else {
+                // Fallback untuk browser tanpa Clipboard API
+                try {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = number;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = '0';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('Nomor berhasil disalin!');
+                } catch (err) {
+                    alert(`Gagal menyalin nomor. Silakan salin manual: ${number}`);
+                }
+            }
+        }
+
+        function toggleDrawer() {
+            const drawer = document.getElementById('drawer');
+            const overlay = document.getElementById('drawerOverlay');
+            const drawerBtn = document.querySelector('.drawer-btn');
+            drawer.classList.toggle('open');
+            overlay.classList.toggle('open');
+            drawerBtn.classList.toggle('open');
+            // Force reflow untuk animasi halus
+            drawer.offsetHeight;
+        }
+
+        function showProjects() {
+            document.getElementById('mainContainer').style.display = 'none';
+            document.getElementById('projectContainer').style.display = 'block';
+            toggleDrawer();
+        }
+
+        function showMain() {
+            document.getElementById('mainContainer').style.display = 'block';
+            document.getElementById('projectContainer').style.display = 'none';
+        }
+
+        function openPaymentModal(product, amount) {
+            currentProduct = product;
+            currentAmount = amount;
+            document.getElementById('paymentModalTitle').textContent = `Pembelian: ${product}`;
+            document.getElementById('paymentProductName').textContent = product;
+            updateAccountNumber();
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+
+        function openDonationModal() {
+            document.getElementById('donationModal').style.display = 'block';
+            updateDonationAccountNumber();
+            const slider = document.getElementById('donationSlider');
+            const valueDisplay = document.getElementById('donationValue');
+            const progressBarFill = document.getElementById('progressBarFill');
+            slider.oninput = () => {
+                const value = parseInt(slider.value);
+                valueDisplay.textContent = `Rp ${value.toLocaleString('id-ID')}`;
+                const percentage = ((value - 5000) / (1000000 - 5000)) * 100;
+                progressBarFill.style.width = `${percentage}%`;
+            };
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+            document.getElementById('paymentForm').reset();
+            document.getElementById('accountNumber').textContent = '';
+            document.getElementById('copyInstruction').textContent = '';
+            document.getElementById('copyButton').style.display = 'none';
+        }
+
+        function closeDonationModal() {
+            document.getElementById('donationModal').style.display = 'none';
+            document.getElementById('donationPhone').value = '';
+            document.getElementById('donationValue').textContent = 'Rp 5.000';
+            document.getElementById('donationSlider').value = 5000;
+            document.getElementById('progressBarFill').style.width = '0%';
+            document.getElementById('donationAccountNumber').textContent = '';
+            document.getElementById('donationCopyInstruction').textContent = '';
+            document.getElementById('donationCopyButton').style.display = 'none';
+        }
+
+        function closeConfirmationModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+
+        function submitPayment(phone, paymentMethod) {
+            const invoiceCode = generateInvoiceCode();
+            document.getElementById('confirmationInvoiceCode').textContent = invoiceCode;
+            document.getElementById('confirmationProductName').textContent = currentProduct;
+            document.getElementById('confirmationAmount').textContent = currentAmount.toLocaleString('id-ID');
+            document.getElementById('confirmationPhone').textContent = phone;
+            document.getElementById('confirmationPaymentMethod').textContent = paymentMethod.toUpperCase();
+
+            const whatsappLink = `https://wa.me/6281332669006?text=Saya%20telah%20membayar%20${encodeURIComponent(currentProduct)}%20dengan%20invoice%20${encodeURIComponent(invoiceCode)}`;
+            document.getElementById('whatsappLink').href = whatsappLink;
+
+            const qrisImage = document.getElementById('qrisImage');
+            if (paymentMethod === 'qris') {
+                qrisImage.style.display = 'block';
+                qrisImage.querySelector('img').src = 'https://raw.githubusercontent.com/ChelzzPemula/sensiv-website/refs/heads/main/1722516945223.jpg';
+            } else {
+                qrisImage.style.display = 'none';
+            }
+
+            let redirectUrl = '';
+            if (paymentMethod === 'dana') {
+                redirectUrl = `https://link.dana.id/minta/6282328506749?amount=${currentAmount}&message=Pembayaran%20${encodeURIComponent(currentProduct)}%20${invoiceCode}`;
+            } else if (paymentMethod === 'gopay') {
+                redirectUrl = `gopay://midtrans?data=${encodeURIComponent(JSON.stringify({
+                    phone: '6282328506749',
+                    amount: currentAmount,
+                    description: `Pembayaran ${currentProduct} ${invoiceCode}`
+                }))}`;
+            } else if (paymentMethod === 'ovo') {
+                redirectUrl = `ovo://pay?phone=6282134127148&amount=${currentAmount}&note=Pembayaran%20${encodeURIComponent(currentProduct)}%20${invoiceCode}`;
+            } else if (paymentMethod === 'qris') {
+                redirectUrl = 'https://raw.githubusercontent.com/ChelzzPemula/sensiv-website/refs/heads/main/1722516945223.jpg';
+            }
+
+            document.getElementById('paymentModal').style.display = 'none';
+            document.getElementById('donationModal').style.display = 'none';
+            document.getElementById('confirmationModal').style.display = 'block';
+
+            if (paymentMethod !== 'qris') {
+                setTimeout(() => {
+                    try {
+                        window.location.href = redirectUrl;
+                    } catch (e) {
+                        console.error('Redirect gagal:', e);
+                    }
+                    setTimeout(() => {
+                        const number = paymentMethod === 'dana' ? '082328506749' : paymentMethod === 'gopay' ? '082328506749' : '082134127148';
+                        alert(`Jika redirect gagal, lakukan transfer manual ke nomor ${paymentMethod.toUpperCase()} (${number}) dan kirim bukti ke WhatsApp admin: ${whatsappLink}`);
+                    }, 2500);
+                }, 500);
+            }
+
+            console.log(`Mengirim konfirmasi ke ${phone}:
+                Jika transaksi berhasil, kirim invoice dan sertakan bukti transfer:
+                Invoice: ${invoiceCode}
+                Produk: ${currentProduct}
+                Jumlah: Rp ${currentAmount.toLocaleString('id-ID')}
+                Klik untuk kirim bukti: ${whatsappLink}
+            `);
+
+            fetch('/send-confirmation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, product: currentProduct, amount: currentAmount, invoiceCode })
+            })
+            .then(res => res.text())
+            .then(result => console.log(result))
+            .catch(err => console.error('Gagal mengirim pesan:', err));
+        }
+
+        document.getElementById('paymentForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const phone = document.getElementById('phone').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            if (!phone.match(/\+?62[0-9]{9,12}/)) {
+                alert('Masukkan nomor telepon yang valid (contoh: 6281234567890)');
+                return;
+            }
+            submitPayment(phone, paymentMethod);
+        });
+
+        function submitDonation() {
+            const phone = document.getElementById('donationPhone').value;
+            const paymentMethod = document.getElementById('donationPaymentMethod').value;
+            currentProduct = 'Donasi';
+            currentAmount = parseInt(document.getElementById('donationSlider').value);
+            if (!phone.match(/\+?62[0-9]{9,12}/)) {
+                alert('Masukkan nomor telepon yang valid (contoh: 6281234567890)');
+                return;
+            }
+            if (currentAmount < 5000) {
+                alert('Minimal donasi Rp 5.000');
+                return;
+            }
+            submitPayment(phone, paymentMethod);
+        }
+
+        window.onclick = function(event) {
+            const paymentModal = document.getElementById('paymentModal');
+            const donationModal = document.getElementById('donationModal');
+            const confirmationModal = document.getElementById('confirmationModal');
+            if (event.target === paymentModal) closePaymentModal();
+            if (event.target === donationModal) closeDonationModal();
+            if (event.target === confirmationModal) closeConfirmationModal();
+        };
+
+        window.addEventListener('load', () => {
+            const isLowEnd = /Android.*(4\.|5\.)/.test(navigator.userAgent) || window.innerWidth < 360;
+            if (isLowEnd) {
+                document.querySelectorAll('[style*="backdrop-filter"]').forEach(el => {
+                    el.style.backdropFilter = 'none';
+                    el.style.webkitBackdropFilter = 'none';
+                });
+                document.querySelectorAll('[style*="transform"]').forEach(el => {
+                    el.style.transform = 'none';
+                });
+            }
+            // Peringatkan jika bukan HTTPS
+            if (window.location.protocol !== 'https:') {
+                console.warn('Halaman tidak menggunakan HTTPS. Fungsi salin mungkin tidak berfungsi di beberapa browser.');
+            }
+        });
+    </script>
+</body>
+</html>
